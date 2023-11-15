@@ -32,14 +32,14 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="change_password_button">
+       <widget class="QPushButton" name="change_button">
         <property name="text">
          <string>Сменить пароль</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="access_data_button">
+       <widget class="QPushButton" name="access_button">
         <property name="text">
          <string>Получить доступ к секретным данным</string>
         </property>
