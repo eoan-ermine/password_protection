@@ -26,9 +26,9 @@ int main(int argc, char *argv[]) {
     qDebug() << "database in" << QDir::currentPath();
     auto databasePath =
         dir.filesystemAbsolutePath() / "pass_protection.database";
+    resourcesDatabase.copy(databasePath);
     QFile database{databasePath};
     database.setPermissions(QFileDevice::WriteOwner | QFileDevice::ReadOwner);
-    resourcesDatabase.copy(databasePath);
     DatabaseManager *databaseManager =
         new DatabaseManager("pass_protection.database");
     app.setProperty("databaseManager", QVariant::fromValue(databaseManager));
