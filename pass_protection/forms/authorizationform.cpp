@@ -1,5 +1,6 @@
 #include "authorizationform.hpp"
 #include "../database_manager.hpp"
+#include "registrationform.hpp"
 
 #include <QMessageBox>
 
@@ -28,5 +29,11 @@ AuthorizationForm::AuthorizationForm(QWidget *parent) : QMainWindow(parent) {
       qApp->setProperty("pass", QVariant::fromValue(pass));
       this->close();
     }
+  });
+
+  connect(ui.signup_button, &QPushButton::clicked, this, [this](bool) {
+    this->close();
+    RegistrationForm *registrationForm = new RegistrationForm(this);
+    registrationForm->show();
   });
 }
