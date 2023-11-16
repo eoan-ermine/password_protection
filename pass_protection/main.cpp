@@ -34,6 +34,9 @@ int main(int argc, char *argv[]) {
     app.setProperty("databaseManager", QVariant::fromValue(databaseManager));
   }
 
+  app.setProperty("username", QVariant::fromValue(QString()));
+  app.setProperty("pass", QVariant::fromValue(QString()));
+
   MainWindowForm mainwindow;
   mainwindow.show();
   return app.exec();

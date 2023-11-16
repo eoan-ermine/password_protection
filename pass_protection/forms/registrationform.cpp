@@ -31,6 +31,10 @@ RegistrationForm::RegistrationForm(QWidget *parent) : QMainWindow(parent) {
                                      phone)) {
       QMessageBox::critical(this, "Сохранение невозможно",
                             "Вероятно, username уже занят");
+    } else {
+      QMessageBox::information(this, "Вход успешен",
+                               "Поздравляю, вы успешно зарегистрировались");
+      this->close();
     }
   });
 }

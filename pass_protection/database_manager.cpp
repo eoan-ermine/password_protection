@@ -65,4 +65,23 @@ bool DatabaseManager::changePass(
     const QString &firstName, const QString &patronymic, const QDate &birthDate,
     const QString &birthPlace, const QString &phone) {}
 
-bool DatabaseManager::login(const QString &username, const QString &pass) {}
+bool DatabaseManager::login(const QString &username, const QString &pass) {
+  QSqlQuery selectQ;
+  selectQ.prepare(
+      R"(SELECT 1 FROM "main"."users" WHERE username = ? AND password = ?)");
+  selectQ.addBindValue(username);
+  selectQ.addBindValue(pass);
+  selectQ.exec();
+
+  bool result = false;
+  if (!selectQ.exec()) {
+    qDebug() << "selectUser error:" << selectQ.lastError();
+  } else {
+    qDebug() << "selectUser status:" << "ok";
+    if (selectQ.next()) {
+      qDebug() << "selectUser collision";
+      result = true;
+    }
+  }
+  return result;
+}
