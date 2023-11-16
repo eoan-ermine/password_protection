@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>pass_protection.database</file>
+    </qresource>
+</RCC>

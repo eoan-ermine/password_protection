@@ -3,10 +3,13 @@ project(pass_protection LANGUAGES CXX)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Sql)
 
 qt_add_executable(pass_protection
+    pass_protection/resources/pass_protection.qrc
+
     pass_protection/forms/authorization.ui
     pass_protection/forms/authorizationform.hpp
     pass_protection/forms/authorizationform.cpp
