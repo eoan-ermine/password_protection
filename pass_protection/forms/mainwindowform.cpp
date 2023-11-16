@@ -6,6 +6,7 @@
 #include "registrationform.hpp"
 
 #include <QMessageBox>
+#include <qmessagebox.h>
 
 MainWindowForm::MainWindowForm(QWidget *parent) : QMainWindow(parent) {
   ui.setupUi(this);
@@ -29,5 +30,19 @@ MainWindowForm::MainWindowForm(QWidget *parent) : QMainWindow(parent) {
 
     ChangeForm *changeForm = new ChangeForm(this);
     changeForm->show();
+  });
+  connect(ui.access_button, &QPushButton::clicked, this, [this](bool) {
+    DatabaseManager *databaseManager =
+        qApp->property("databaseManager").value<DatabaseManager *>();
+
+    const QString &username = qApp->property("username").value<QString>(),
+                  &pass = qApp->property("pass").value<QString>();
+
+    if (!databaseManager->login(username, pass)) {
+      QMessageBox::critical(this, "Ошибка", "Вы не авторизованы");
+      return;
+    }
+
+    QMessageBox::information(this, "Успех", "Узрите секретные данные: 42");
   });
 }
