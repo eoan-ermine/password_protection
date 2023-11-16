@@ -60,10 +60,26 @@ bool DatabaseManager::createUser(
   return success;
 }
 
-bool DatabaseManager::changePass(
-    const QString &username, const QString &pass, const QString &lastName,
-    const QString &firstName, const QString &patronymic, const QDate &birthDate,
-    const QString &birthPlace, const QString &phone) {}
+bool DatabaseManager::changePass(const QString &username, const QString &pass,
+                                 const QString &controlPass) {
+  bool result = false;
+
+  if (login(username, pass)) {
+    QSqlQuery updateQ;
+    updateQ.prepare(
+        R"(UPDATE "main"."users" SET password = ? WHERE username = ?)");
+    updateQ.addBindValue(controlPass);
+    updateQ.addBindValue(username);
+    if (!updateQ.exec()) {
+      qDebug() << "updateUser error:" << updateQ.lastError();
+    } else {
+      qDebug() << "updateUser status:" << "ok";
+      result = true;
+    }
+  }
+
+  return result;
+}
 
 bool DatabaseManager::login(const QString &username, const QString &pass) {
   QSqlQuery selectQ;
@@ -71,7 +87,6 @@ bool DatabaseManager::login(const QString &username, const QString &pass) {
       R"(SELECT 1 FROM "main"."users" WHERE username = ? AND password = ?)");
   selectQ.addBindValue(username);
   selectQ.addBindValue(pass);
-  selectQ.exec();
 
   bool result = false;
   if (!selectQ.exec()) {
