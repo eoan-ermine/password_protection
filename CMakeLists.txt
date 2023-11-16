@@ -19,6 +19,10 @@ qt_add_executable(pass_protection
     pass_protection/forms/registration.ui
     pass_protection/forms/registrationform.hpp
     pass_protection/forms/registrationform.cpp
+
+    pass_protection/database_manager.hpp
+    pass_protection/database_manager.cpp
+
     pass_protection/main.cpp
 
 )
@@ -32,4 +36,5 @@ target_link_libraries(pass_protection  PUBLIC
     Qt::Core
     Qt::Gui
     Qt::Widgets
+    Qt::Sql
 )
