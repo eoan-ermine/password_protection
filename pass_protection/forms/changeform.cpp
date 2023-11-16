@@ -36,7 +36,7 @@ ChangeForm::ChangeForm(QWidget *parent) : QMainWindow(parent) {
       return;
     }
 
-    QMessageBox::information(this, "Пароль сменён успешно",
+    QMessageBox::information(this, "Успех",
                              "Поздравляю, вы успешно сменили пароль");
     qApp->setProperty("username", QVariant::fromValue(username));
     qApp->setProperty("pass", QVariant::fromValue(new_pass));
