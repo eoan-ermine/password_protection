@@ -3,6 +3,7 @@
 #include <QFileDevice>
 #include <QStandardPaths>
 #include <QVariant>
+#include <memory>
 
 #include "forms/mainwindowform.hpp"
 
@@ -17,6 +18,7 @@ int main(int argc, char *argv[]) {
   if (!resourcesDatabase.open(QIODevice::ReadOnly)) {
     qFatal("Can't open resources database");
   }
+  std::shared_ptr<DatabaseManager> databaseManager = nullptr;
 
   auto path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
   if (path.isEmpty())
@@ -29,8 +31,8 @@ int main(int argc, char *argv[]) {
     resourcesDatabase.copy(databasePath);
     QFile database{databasePath};
     database.setPermissions(QFileDevice::WriteOwner | QFileDevice::ReadOwner);
-    DatabaseManager *databaseManager =
-        new DatabaseManager("pass_protection.database");
+    databaseManager =
+        std::make_shared<DatabaseManager>("pass_protection.database");
     app.setProperty("databaseManager", QVariant::fromValue(databaseManager));
   }
 
