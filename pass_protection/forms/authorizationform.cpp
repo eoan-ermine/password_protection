@@ -22,13 +22,14 @@ AuthorizationForm::AuthorizationForm(QWidget *parent) : QMainWindow(parent) {
 
     if (!databaseManager->login(username, pass)) {
       QMessageBox::critical(this, "Вход невозможен", "Неверные данные");
-    } else {
-      QMessageBox::information(this, "Успех",
-                               "Поздравляю, вы успешно зашли в аккаунт");
-      qApp->setProperty("username", QVariant::fromValue(username));
-      qApp->setProperty("pass", QVariant::fromValue(pass));
-      this->close();
+      return;
     }
+
+    QMessageBox::information(this, "Успех",
+                             "Поздравляю, вы успешно зашли в аккаунт");
+    qApp->setProperty("username", QVariant::fromValue(username));
+    qApp->setProperty("pass", QVariant::fromValue(pass));
+    this->close();
   });
 
   connect(ui.signup_button, &QPushButton::clicked, this, [this](bool) {

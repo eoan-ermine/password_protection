@@ -16,11 +16,13 @@ ChangeForm::ChangeForm(QWidget *parent) : QMainWindow(parent) {
       QMessageBox::critical(this, "Ошибка", "Введите все необходимые данные");
       return;
     }
+
     if (new_pass != control_pass) {
       QMessageBox::critical(this, "Ошибка",
                             "Новый пароль не совпадает с контрольным паролем");
       return;
     }
+
     if (current_pass == new_pass) {
       QMessageBox::critical(this, "Ошибка",
                             "Новый пароль должен быть отличен от текущего");

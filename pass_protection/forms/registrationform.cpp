@@ -5,6 +5,7 @@
 
 RegistrationForm::RegistrationForm(QWidget *parent) : QMainWindow(parent) {
   ui.setupUi(this);
+
   connect(ui.save_button, &QPushButton::clicked, this, [this](bool) {
     const auto &username = ui.username_edit->text(),
                &pass = ui.password_edit->text(),
@@ -31,10 +32,11 @@ RegistrationForm::RegistrationForm(QWidget *parent) : QMainWindow(parent) {
                                      phone)) {
       QMessageBox::critical(this, "Сохранение невозможно",
                             "Вероятно, username уже занят");
-    } else {
-      QMessageBox::information(this, "Успех",
-                               "Поздравляю, вы успешно зарегистрировались");
-      this->close();
+      return;
     }
+
+    QMessageBox::information(this, "Успех",
+                             "Поздравляю, вы успешно зарегистрировались");
+    this->close();
   });
 }

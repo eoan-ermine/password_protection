@@ -20,22 +20,22 @@ bool DatabaseManager::createUser(
     const QString &username, const QString &pass, const QString &lastName,
     const QString &firstName, const QString &patronymic, const QDate &birthDate,
     const QString &birthPlace, const QString &phone) {
-  bool success = false;
 
   QSqlQuery selectQ;
   selectQ.prepare(
       R"(SELECT "username" FROM "main"."users" WHERE username = ?)");
   selectQ.addBindValue(username);
   selectQ.exec();
+
   if (!selectQ.exec()) {
     qDebug() << "selectUser error:" << selectQ.lastError();
     return false;
-  } else {
-    qDebug() << "selectUser status:" << "ok";
-    if (selectQ.next()) {
-      qDebug() << "selectUser collision";
-      return false;
-    }
+  }
+
+  qDebug() << "selectUser status:" << "ok";
+  if (selectQ.next()) {
+    qDebug() << "selectUser collision";
+    return false;
   }
 
   QSqlQuery insertQ;
@@ -51,34 +51,33 @@ bool DatabaseManager::createUser(
   insertQ.addBindValue(birthPlace);
   insertQ.addBindValue(phone);
 
-  if (insertQ.exec()) {
-    success = true;
-  } else {
+  if (!insertQ.exec()) {
     qDebug() << "createUser error:" << insertQ.lastError();
+    return false;
   }
 
-  return success;
+  return true;
 }
 
 bool DatabaseManager::changePass(const QString &username, const QString &pass,
                                  const QString &controlPass) {
-  bool result = false;
-
-  if (login(username, pass)) {
-    QSqlQuery updateQ;
-    updateQ.prepare(
-        R"(UPDATE "main"."users" SET password = ? WHERE username = ?)");
-    updateQ.addBindValue(controlPass);
-    updateQ.addBindValue(username);
-    if (!updateQ.exec()) {
-      qDebug() << "updateUser error:" << updateQ.lastError();
-    } else {
-      qDebug() << "updateUser status:" << "ok";
-      result = true;
-    }
+  if (!login(username, pass)) {
+    return false;
   }
 
-  return result;
+  QSqlQuery updateQ;
+  updateQ.prepare(
+      R"(UPDATE "main"."users" SET password = ? WHERE username = ?)");
+  updateQ.addBindValue(controlPass);
+  updateQ.addBindValue(username);
+
+  if (!updateQ.exec()) {
+    qDebug() << "updateUser error:" << updateQ.lastError();
+    return false;
+  }
+  qDebug() << "updateUser status:" << "ok";
+
+  return true;
 }
 
 bool DatabaseManager::login(const QString &username, const QString &pass) {
@@ -88,15 +87,14 @@ bool DatabaseManager::login(const QString &username, const QString &pass) {
   selectQ.addBindValue(username);
   selectQ.addBindValue(pass);
 
-  bool result = false;
   if (!selectQ.exec()) {
     qDebug() << "selectUser error:" << selectQ.lastError();
-  } else {
-    qDebug() << "selectUser status:" << "ok";
-    if (selectQ.next()) {
-      qDebug() << "selectUser collision";
-      result = true;
-    }
+    return false;
   }
-  return result;
+  if (!selectQ.next()) {
+    return false;
+  }
+  qDebug() << "selectUser status:" << "ok";
+
+  return true;
 }
