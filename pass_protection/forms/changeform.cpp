@@ -1,5 +1,6 @@
 #include "changeform.hpp"
 #include "../database_manager.hpp"
+#include "../validators.h"
 
 #include <QMessageBox>
 
@@ -29,7 +30,14 @@ ChangeForm::ChangeForm(QWidget *parent) : QMainWindow(parent) {
       return;
     }
 
-    DatabaseManager *databaseManager =
+      PassValidator passValidator(new_pass);
+      if (!passValidator.validate()) {
+          QMessageBox::critical(this, "Сохранение невозможно",
+                                passValidator.getErrorMessage());
+          return;
+      }
+
+      DatabaseManager *databaseManager =
         qApp->property("databaseManager").value<DatabaseManager *>();
     const QString &username = qApp->property("username").value<QString>();
 

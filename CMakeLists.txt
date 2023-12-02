@@ -54,11 +54,12 @@ qt_add_executable(pass_protection
     pass_protection/forms/registrationform.hpp
     pass_protection/forms/registrationform.cpp
 
+    pass_protection/validators.cpp
+    pass_protection/validators.h
     pass_protection/database_manager.hpp
     pass_protection/database_manager.cpp
 
     pass_protection/main.cpp
-
 )
 
 set_target_properties(pass_protection PROPERTIES

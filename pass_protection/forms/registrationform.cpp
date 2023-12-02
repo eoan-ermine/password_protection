@@ -1,5 +1,6 @@
 #include "registrationform.hpp"
 #include "../database_manager.hpp"
+#include "../validators.h"
 
 #include <QMessageBox>
 
@@ -22,6 +23,13 @@ RegistrationForm::RegistrationForm(QWidget *parent) : QMainWindow(parent) {
       QMessageBox::critical(this, "Сохранение невозможно",
                             "Введите все необходимые данные");
       return;
+    }
+
+    PassValidator passValidator(pass);
+    if (!passValidator.validate()) {
+        QMessageBox::critical(this, "Сохранение невозможно",
+                              passValidator.getErrorMessage());
+        return;
     }
 
     DatabaseManager *databaseManager =
