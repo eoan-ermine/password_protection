@@ -1,3 +1,5 @@
+#pragma once
+
 #include "ui_authorization.h"
 
 class AuthorizationForm : public QMainWindow {

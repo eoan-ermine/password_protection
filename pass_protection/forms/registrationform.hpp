@@ -1,3 +1,5 @@
+#pragma once
+
 #include "ui_registration.h"
 
 class RegistrationForm : public QMainWindow {

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "ui_mainwindow.h"
 
 class MainWindowForm : public QMainWindow {

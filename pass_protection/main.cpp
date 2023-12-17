@@ -1,4 +1,3 @@
-#include <QDir>
 #include <QFile>
 #include <QFileDevice>
 #include <QStandardPaths>

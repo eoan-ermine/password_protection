@@ -1,3 +1,5 @@
+#pragma once
+
 #include "ui_change.h"
 
 class ChangeForm : public QMainWindow {

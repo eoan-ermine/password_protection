@@ -1,3 +1,5 @@
+#pragma once
+
 #include <QDate>
 #include <QSqlDatabase>
 #include <QString>
