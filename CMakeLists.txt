@@ -73,3 +73,21 @@ target_link_libraries(pass_protection  PUBLIC
     Qt::Widgets
     Qt::Sql
 )
+
+qt_add_executable(secret_info
+    secret_info/forms/mainwindow.ui
+    secret_info/forms/mainwindowform.hpp
+    secret_info/forms/mainwindowform.cpp
+    secret_info/main.cpp
+)
+
+set_target_properties(secret_info PROPERTIES
+    WIN32_EXECUTABLE TRUE
+    MACOSX_BUNDLE TRUE
+)
+
+target_link_libraries(secret_info  PUBLIC
+    Qt::Core
+    Qt::Gui
+    Qt::Widgets
+)
