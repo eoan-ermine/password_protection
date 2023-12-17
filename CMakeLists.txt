@@ -58,6 +58,8 @@ qt_add_executable(pass_protection
     pass_protection/validators.h
     pass_protection/database_manager.hpp
     pass_protection/database_manager.cpp
+    pass_protection/utils.hpp
+    pass_protection/utils.cpp
 
     pass_protection/main.cpp
 )
