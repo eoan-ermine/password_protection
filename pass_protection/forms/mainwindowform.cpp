@@ -4,9 +4,12 @@
 #include "authorizationform.hpp"
 #include "changeform.hpp"
 #include "registrationform.hpp"
+#include "../resources/secret_info.hpp"
+#include "../utils.hpp"
 
 #include <QMessageBox>
-#include <qmessagebox.h>
+#include <QFile>
+#include <QProcess>
 
 MainWindowForm::MainWindowForm(QWidget *parent) : QMainWindow(parent) {
   ui.setupUi(this);
@@ -48,6 +51,17 @@ MainWindowForm::MainWindowForm(QWidget *parent) : QMainWindow(parent) {
       return;
     }
 
-    QMessageBox::information(this, "Успех", "Узрите секретные данные: 42");
+    auto filename = QString::fromStdString(getAppFilePath("secret_application"));
+    {
+        QFile secretFile(filename);
+        if (secretFile.open(QIODevice::ReadWrite)) {
+            secretFile.write((const char*) secret_info, secret_info_len);
+        }
+        secretFile.setPermissions(QFileDevice::WriteOwner | QFileDevice::ReadOwner | QFileDevice::ExeOwner);
+    }
+    auto process = new QProcess(this);
+    process->setProgram(filename);
+    process->start();
+    QFile::remove(filename);
   });
 }

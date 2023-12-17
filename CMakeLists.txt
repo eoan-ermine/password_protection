@@ -60,6 +60,7 @@ qt_add_executable(pass_protection
     pass_protection/database_manager.cpp
     pass_protection/utils.hpp
     pass_protection/utils.cpp
+    pass_protection/resources/secret_info.hpp
 
     pass_protection/main.cpp
 )
